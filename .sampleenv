@@ -1,6 +1,7 @@
 # This is a sample content of the env file.
-OPENAI_API_KEY =
-WHATSAPP_ACCESS_TOKEN =
-WHATSAPP_PHONENUMBER_ID =
-WHATSAPP_BUSINESS_ID =
-WHATSAPP_GRAPH_VERSION =
+OPENAI_API_KEY = # generated in the OpenAI platform portal (platform.openai.com)
+WHATSAPP_ACCESS_TOKEN =    # Generated in the WhatsApp Developer portal
+WHATSAPP_PHONENUMBER_ID =    # Given by WhatsApp in your portal
+WHATSAPP_BUSINESS_ID =    # Given by WhatsApp in your portal
+WHATSAPP_GRAPH_VERSION =  # the version of the  API 
+WHATSAPP_WEBHOOK_TOKEN =  # for webhook verification, provided by you when creating the webhook. You can run the `gentoken.py` file.
