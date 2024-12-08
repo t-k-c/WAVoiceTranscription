@@ -2,6 +2,7 @@ from flask import Blueprint,jsonify, request
 from config import Config
 import logging
 from .utils import download_audio, react_to_message, send_message
+import whisper
 
 main = Blueprint('main',__name__)
 
@@ -68,6 +69,11 @@ def receive_message():
                 audio_file = download_audio(audio_id)  
 
                 # process the audio
+                model = whisper.load_model("turbo")
+                result = model.transcribe(audio_file.name)
+
+                # send reply
+                send_message(user_phone_number,result)
 
             else:
                 raise Exception("Error formatting data") 

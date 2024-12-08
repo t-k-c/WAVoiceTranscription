@@ -3,5 +3,5 @@ OPENAI_API_KEY = # generated in the OpenAI platform portal (platform.openai.com)
 WHATSAPP_ACCESS_TOKEN =    # Generated in the WhatsApp Developer portal
 WHATSAPP_PHONENUMBER_ID =    # Given by WhatsApp in your portal
 WHATSAPP_BUSINESS_ID =    # Given by WhatsApp in your portal
-WHATSAPP_GRAPH_VERSION =  # the version of the  API 
+WHATSAPP_GRAPH_VERSION =  "v20.0" # the version of the  API 
 WHATSAPP_WEBHOOK_TOKEN =  # for webhook verification, provided by you when creating the webhook. You can run the `gentoken.py` file.
