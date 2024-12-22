@@ -5,20 +5,14 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    ffmpeg \
-    gcc \
-    libc-dev \
-    build-essential \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install git -y
 
+# Install ffmpeg 
+RUN apt-get install -y ffmpeg
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-RUN pip install --no-cache-dir "git+https://github.com/openai/whisper.git"
+RUN pip install  "git+https://github.com/openai/whisper.git"
 
 COPY . .
 

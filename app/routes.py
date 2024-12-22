@@ -70,6 +70,9 @@ def receive_message():
 
                 # process the audio
                 model = whisper.load_model("turbo")
+
+                logging.info(f"the audio file {audio_file}")
+
                 result = model.transcribe(audio_file.name)
 
                 # send reply
