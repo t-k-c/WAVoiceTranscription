@@ -1,11 +1,11 @@
 from flask import Blueprint,jsonify, request
 from config import Config
 import logging
-from .utils import download_audio, react_to_message, send_message
+from .utils import download_audio, react_to_message, send_message, get_processed_messages, log_processed_message
 import whisper
 
 main = Blueprint('main',__name__)
-
+processed_messages =[] #avoid replay
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -55,29 +55,49 @@ def receive_message():
         try:
             messages = data["entry"][0]["changes"][0]["value"]["messages"]
             user_phone_number =  messages[0]["from"]
-            message_id = messages[0]["id"]      
+            message_id = messages[0]["id"]
+             
+      
+                   
             if "audio" in messages[0] and "id" in messages[0]["audio"]:
+
                 audio_id = messages[0]["audio"]["id"]
                 logging.info(f"Sender Phone Number: {user_phone_number}, Message ID: {message_id}")
                 logging.info("Audio ID: {}".format(audio_id))
                
-
+                if message_id in processed_messages:
+                    logging.info(f"{message_id} already processed. Exiting...") 
+                    return "Ok", 200
                 # let me react to the message :)
-                react_to_message(phone_number=user_phone_number, message_id=message_id )
+                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\u23F3" ) #⏳
 
                 # Download the audio file.
                 audio_file = download_audio(audio_id)  
 
+                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC42" ) #👂
+
                 # process the audio
                 model = whisper.load_model("turbo")
 
-                logging.info(f"the audio file {audio_file}")
+                logging.info(f"the audio file {audio_file.name}")
 
                 result = model.transcribe(audio_file.name)
+                
+                if message_id in processed_messages:
+                    logging.info(f"{message_id} already processed. Exiting...") 
+                    return "Ok", 200
+                processed_messages.append(message_id)
 
+                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC4C" ) #👌
+                
+                logging.info(f"the response {result}")
                 # send reply
-                send_message(user_phone_number,result)
+                
+                send_message(user_phone_number,result["text"])
 
+                
+                
+                return "ok", 200
             else:
                 raise Exception("Error formatting data") 
         except Exception as e:

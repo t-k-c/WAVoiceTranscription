@@ -51,7 +51,7 @@ def send_message(phone_number, message):
                     "recipient_type": "individual",
                     "to": phone_number,
                     "type": "text",
-                    "reaction": {
+                    "text": {
                         "preview_url": False,
                         "body": message
                     }
@@ -78,4 +78,22 @@ def react_to_message(phone_number,message_id,emoji="\uD83D\uDE00"):
                             "emoji": emoji
                         }
                    })
+
     response.raise_for_status()
+
+
+
+# read message processing log file.
+def get_processed_messages():
+    try:
+        with open("./process.log", "r") as file:
+            return [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+        return []
+
+
+# process message log file.
+def log_processed_message(value):
+    with open("./process.log", "a") as file:
+        file.write(value + "\n")
+    return True
