@@ -2,7 +2,8 @@
 
 #python3.10
 
-sudo apt-get install -y ffmpeg # brew install ffmpeg if on macos
+# brew install ffmpeg if on macos
+sudo apt-get install -y ffmpeg 
 
 python3 -m venv ./venv
 
@@ -12,8 +13,10 @@ python3 -m pip install -r requirements.txt
 
 python3 -m pip install  "git+https://github.com/openai/whisper.git"
 
-python3 downloadmodel.py #just to cache the model.
+#just to cache the model initially.
+python3 downloadmodel.py 
 
-python3 gentoken.py #generate the token (if you want)
+# generate the token (if you want)
+python3 gentoken.py 
 
 python3 app.py
