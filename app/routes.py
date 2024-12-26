@@ -29,7 +29,6 @@ def receive_message():
         Creating a webhook: https://developers.facebook.com/docs/whatsapp/cloud-api/guides/set-up-webhooks
         To expose your server and test from your local device, you can use tools like Ngrok (https://ngrok.com/) and do `ngrok http ${port}`
     """
-
     # WhatsApp incorporates a system to verify the webhook by sending different parameters
     # More information: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#create-endpoint
     # The verification comes with a hub.mode, hub.challenge and hub.verify_token parameter. The verify_token is 
@@ -82,7 +81,7 @@ def receive_message():
                 logging.info(f"the audio file {audio_file.name}")
 
                 result = model.transcribe(audio_file.name)
-                
+
                 if message_id in processed_messages:
                     logging.info(f"{message_id} already processed. Exiting...") 
                     return "Ok", 200

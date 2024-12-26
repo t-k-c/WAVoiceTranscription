@@ -1,14 +1,19 @@
 #!/bin/bash
 
-# Stop and remove any existing container
-docker stop wa-voice 2>/dev/null || true
-docker rm wa-voice 2>/dev/null || true
+#python3.10
 
-# Build the image
-docker build -t wa-voice:latest .
+sudo apt-get install -y ffmpeg # brew install ffmpeg if on macos
 
-# Run the container
-docker run -d -p 8085:8085 --name wa-voice wa-voice:latest
+python3 -m venv ./venv
 
-# Display running containers
-docker ps
+source ./venv/bin/activate
+
+python3 -m pip install -r requirements.txt
+
+python3 -m pip install  "git+https://github.com/openai/whisper.git"
+
+python3 downloadmodel.py #just to cache the model.
+
+python3 gentoken.py #generate the token (if you want)
+
+python3 app.py
