@@ -1,11 +1,6 @@
 
 ![](https://clarence.engineer/storage/2024/07/cropped-Frame-9-192x192.png)
 
-**Table of Contents**
-
-[TOCM]
-
-[TOC]
 
 ### Introduction
 
@@ -22,7 +17,7 @@
 
 ### How to run
 
-````
+```
 #!/bin/bash
 
 # Do brew install ffmpeg if on macos
@@ -47,7 +42,9 @@ python3 run.py
 ```
 
 #### Using Docker
-```#!/bin/bash
+
+```
+#!/bin/bash
 
 # Stop and remove any existing container
 docker stop wa-voice 2>/dev/null || true
@@ -76,4 +73,5 @@ docker build -t wa-voice:latest .
 docker run -d -p 8085:8085 --name wa-voice wa-voice:latest
 
 # Display running containers
-docker ps```
+docker ps
+```
