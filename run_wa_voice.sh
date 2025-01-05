@@ -19,4 +19,4 @@ python3 downloadmodel.py
 # generate the token (if you want)
 python3 gentoken.py 
 
-python3 app.py
+python3 run.py

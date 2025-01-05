@@ -51,56 +51,58 @@ def receive_message():
     elif request.method == "POST":
         data  = request.get_json()
         logging.info(data) # the payload sent from WhatsApp
-        try:
-            messages = data["entry"][0]["changes"][0]["value"]["messages"]
-            user_phone_number =  messages[0]["from"]
-            message_id = messages[0]["id"]
-             
-      
-                   
-            if "audio" in messages[0] and "id" in messages[0]["audio"]:
-
-                audio_id = messages[0]["audio"]["id"]
-                logging.info(f"Sender Phone Number: {user_phone_number}, Message ID: {message_id}")
-                logging.info("Audio ID: {}".format(audio_id))
-               
-                if message_id in processed_messages:
-                    logging.info(f"{message_id} already processed. Exiting...") 
-                    return "Ok", 200
-                # let me react to the message :)
-                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\u23F3" ) #⏳
-
-                # Download the audio file.
-                audio_file = download_audio(audio_id)  
-
-                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC42" ) #👂
-
-                # process the audio
-                model = whisper.load_model("turbo")
-
-                logging.info(f"the audio file {audio_file.name}")
-
-                result = model.transcribe(audio_file.name)
-
-                if message_id in processed_messages:
-                    logging.info(f"{message_id} already processed. Exiting...") 
-                    return "Ok", 200
-                processed_messages.append(message_id)
-
-                react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC4C" ) #👌
+        if "messages" not in data["entry"][0]["changes"][0]["value"]:
+            logging.info("No Message object in data:")
+            logging.info(data["entry"][0]["changes"][0]["value"])
+            return "ok", 200
+        
+        messages = data["entry"][0]["changes"][0]["value"]["messages"]
+        user_phone_number =  messages[0]["from"]
+        message_id = messages[0]["id"]
+            
+    
                 
-                logging.info(f"the response {result}")
-                # send reply
-                
-                send_message(user_phone_number,result["text"])
+        if "audio" in messages[0] and "id" in messages[0]["audio"]:
 
-                
-                
-                return "ok", 200
-            else:
-                raise Exception("Error formatting data") 
-        except Exception as e:
-            logging.critical(e)
-            # ignoring...
-            pass
-        return "ok", 200
+            audio_id = messages[0]["audio"]["id"]
+            logging.info(f"Sender Phone Number: {user_phone_number}, Message ID: {message_id}")
+            logging.info("Audio ID: {}".format(audio_id))
+            
+            if message_id in processed_messages:
+                logging.info(f"{message_id} already processed. Exiting...") 
+                return "Ok", 200
+            # let me react to the message :)
+            react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\u23F3" ) #⏳
+
+            # Download the audio file.
+            audio_file = download_audio(audio_id)  
+
+            react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC42" ) #👂
+
+            # process the audio
+            model = whisper.load_model("turbo")
+
+            logging.info(f"the audio file {audio_file.name}")
+
+            result = model.transcribe(audio_file.name)
+
+            if message_id in processed_messages:
+                logging.info(f"{message_id} already processed. Exiting...") 
+                return "Ok", 200
+            processed_messages.append(message_id)
+
+            react_to_message(phone_number=user_phone_number, message_id=message_id, emoji= "\uD83D\uDC4C" ) #👌
+            
+            logging.info(f"the response {result}")
+            # send reply
+            
+            send_message(user_phone_number,result["text"])
+
+            
+            
+            return "ok", 200
+        else:
+            logging.info(" Could not extract data")
+            return "ok", 200
+        
+        
