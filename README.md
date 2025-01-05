@@ -18,7 +18,20 @@
 
 ### How to run
 
-#### 1. Environment variables
+#### 1. WhatsApp Cloud API Configuration
+
+You will need to set up the following to be able to get read messages from WhatsApp (via the Cloud API):
+
+- Setting up a Meta Developer account and [registering a WhatsApp business number](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started "registering a WhatsApp business number").
+
+- [Configuring webhooks](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/set-up-webhooks "Configuring webhooks") to receive real-time message updates
+
+- [Implementing endpoint](https://developers.facebook.com/docs/graph-api/webhooks/getting-started#create-endpoint "Implementing endpoint") handlers for different message types
+
+- Managing authentication and security 
+  
+
+#### 2. Environment variables
 
 You could constitute a `.env` file with the following parameters:
 
@@ -32,7 +45,10 @@ WHATSAPP_GRAPH_VERSION =  "v20.0" # the version of the  API
 WHATSAPP_WEBHOOK_TOKEN =  # for webhook verification, provided by you when creating the webhook. You can run the `gentoken.py` file.
 ```
 
-#### Direct Run 
+
+#### 3. Running the server
+
+##### Direct Run 
 
 ```
 #!/bin/bash
@@ -58,7 +74,7 @@ python3 run.py
 
 ```
 
-#### Using Docker
+##### Using Docker
 
 ```
 #!/bin/bash
