@@ -14,8 +14,23 @@
 
 - Flask Server
 - Open AI Whisper Model [tested with python 3.10, may cause issues with 3.13]
+- GPT4 Model (Soon)
 
 ### How to run
+
+#### 1. Environment variables
+
+You could constitute a `.env` file with the following parameters:
+
+```
+# This is a sample content of the env file.
+OPENAI_API_KEY = # generated in the OpenAI platform portal (platform.openai.com)
+WHATSAPP_ACCESS_TOKEN =    # Generated in the WhatsApp Developer portal
+WHATSAPP_PHONENUMBER_ID =    # Given by WhatsApp in your portal
+WHATSAPP_BUSINESS_ID =    # Given by WhatsApp in your portal
+WHATSAPP_GRAPH_VERSION =  "v20.0" # the version of the  API 
+WHATSAPP_WEBHOOK_TOKEN =  # for webhook verification, provided by you when creating the webhook. You can run the `gentoken.py` file.
+```
 
 #### Direct Run 
 
